@@ -55,6 +55,11 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    public Order deliveredOrder(Long orderId) throws OrderException {
+        return null;
+    }
+
+    @Override
     public List<Order> getAllOrders() {
         return null;
     }
