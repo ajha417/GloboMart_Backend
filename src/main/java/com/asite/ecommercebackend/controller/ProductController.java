@@ -3,6 +3,7 @@ package com.asite.ecommercebackend.controller;
 import com.asite.ecommercebackend.exception.ProductException;
 import com.asite.ecommercebackend.model.Product;
 import com.asite.ecommercebackend.service.ProductService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,9 +15,10 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/products")
+@RequestMapping("/api")
 public class ProductController {
 
+    @Autowired
     private ProductService productService;
     @GetMapping("/products")
     public ResponseEntity<Page<Product>> findProductByCategoryHandler(@RequestParam String category,
