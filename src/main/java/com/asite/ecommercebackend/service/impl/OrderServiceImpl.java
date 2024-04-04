@@ -1,26 +1,38 @@
 package com.asite.ecommercebackend.service.impl;
 
 import com.asite.ecommercebackend.exception.OrderException;
-import com.asite.ecommercebackend.model.Address;
-import com.asite.ecommercebackend.model.Order;
-import com.asite.ecommercebackend.model.User;
+import com.asite.ecommercebackend.model.*;
 import com.asite.ecommercebackend.repository.CartRepository;
 import com.asite.ecommercebackend.service.CartService;
 import com.asite.ecommercebackend.service.OrderService;
 import com.asite.ecommercebackend.service.ProductService;
 import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 
-@AllArgsConstructor
 @Service
 public class OrderServiceImpl implements OrderService {
+
+    @Autowired
     private CartRepository cartRepository;
+
+    @Autowired
     private CartService cartService;
+
+    @Autowired
     private ProductService productService;
     @Override
     public Order createOrder(User user, Address address) {
+        Order order = new Order();
+        Cart cart = cartService.findUserCart(user.getId());
+        Set<CartItem> cartItemList = cart.getCartItems();
+        for (CartItem item: cartItemList){
+            
+        }
         return null;
     }
 
