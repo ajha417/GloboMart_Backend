@@ -14,9 +14,11 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
+@Table(name = "user")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "user_id")
     private Long id;
     private String firstName;
     private String lastName;

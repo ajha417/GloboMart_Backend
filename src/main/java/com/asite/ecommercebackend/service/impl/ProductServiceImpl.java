@@ -9,6 +9,7 @@ import com.asite.ecommercebackend.request.CreateProductRequest;
 import com.asite.ecommercebackend.service.ProductService;
 import com.asite.ecommercebackend.service.UserService;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -23,8 +24,11 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @Service
 public class ProductServiceImpl implements ProductService {
+    @Autowired
     private ProductRepository productRepository;
+    @Autowired
     UserService userService;
+    @Autowired
     private CategoryRepository categoryRepository;
 
     @Override
@@ -113,7 +117,7 @@ public class ProductServiceImpl implements ProductService {
             }
         }
         int startIndex = (int) pageable.getOffset();
-        int endIndex = Math.min(startIndex + pageable.getPageSize(),products.size());
+        int endIndex = Math.max(startIndex + pageable.getPageSize(),products.size());
         List<Product> pageContent = products.subList(startIndex, endIndex);
         return new PageImpl<>(pageContent, pageable, products.size());
     }

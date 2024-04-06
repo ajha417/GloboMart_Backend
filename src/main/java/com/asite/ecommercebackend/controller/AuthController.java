@@ -2,10 +2,12 @@ package com.asite.ecommercebackend.controller;
 
 import com.asite.ecommercebackend.config.JwtProvider;
 import com.asite.ecommercebackend.exception.UserException;
+import com.asite.ecommercebackend.model.Cart;
 import com.asite.ecommercebackend.model.User;
 import com.asite.ecommercebackend.repository.UserRepository;
 import com.asite.ecommercebackend.request.LoginRequest;
 import com.asite.ecommercebackend.response.AuthResponse;
+import com.asite.ecommercebackend.service.CartService;
 import com.asite.ecommercebackend.service.impl.CustomerUserServiceImpl;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -30,12 +32,16 @@ public class AuthController {
     private JwtProvider jwtProvider;
     private PasswordEncoder passwordEncoder;
     CustomerUserServiceImpl customerUserService;
+     CartService cartService;
 
-    public AuthController(UserRepository userRepository, JwtProvider jwtProvider,PasswordEncoder passwordEncoder, CustomerUserServiceImpl customerUserService) {
+    public AuthController(UserRepository userRepository, JwtProvider jwtProvider,
+                          PasswordEncoder passwordEncoder,
+                          CustomerUserServiceImpl customerUserService, CartService cartService) {
         this.userRepository = userRepository;
         this.jwtProvider = jwtProvider;
         this.passwordEncoder = passwordEncoder;
         this.customerUserService = customerUserService;
+        this.cartService = cartService;
     }
 
 
@@ -56,7 +62,7 @@ public class AuthController {
         createdUser.setLastName(lastName);
 
         User savedUser = userRepository.save(createdUser);
-
+        Cart cart = cartService.createCart(savedUser);
         Authentication authentication = new UsernamePasswordAuthenticationToken(savedUser.getEmail(),savedUser.getPassword());
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String token = jwtProvider.generateToken(authentication);

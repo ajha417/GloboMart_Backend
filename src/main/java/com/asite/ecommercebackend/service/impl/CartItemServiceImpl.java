@@ -14,19 +14,19 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
-@NoArgsConstructor
-@AllArgsConstructor
-@Getter
-@Setter
 @Service
 public class CartItemServiceImpl implements CartItemService {
-    private CartItemRepository cartItemRepository;
-    private UserService userService;
-    private CartRepository cartRepository;
+     @Autowired
+     CartItemRepository cartItemRepository;
+     @Autowired
+     UserService userService;
+     @Autowired
+     CartRepository cartRepository;
     @Override
     public CartItem createCartItem(CartItem cartItem) {
         cartItem.setQuantity(1);

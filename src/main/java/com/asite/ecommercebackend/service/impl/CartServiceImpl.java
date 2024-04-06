@@ -14,17 +14,25 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 @NoArgsConstructor
-@AllArgsConstructor
-@Getter
-@Setter
 public class CartServiceImpl implements CartService {
-    private CartRepository cartRepository;
-    private CartItemService cartItemService;
-    private ProductService productService;
+     @Autowired
+     CartRepository cartRepository;
+     @Autowired
+     CartItemService cartItemService;
+     @Autowired
+     ProductService productService;
+
+//    public CartServiceImpl(CartRepository cartRepository, CartItemService cartItemService, ProductService productService) {
+//        this.cartRepository = cartRepository;
+//        this.cartItemService = cartItemService;
+//        this.productService = productService;
+//    }
+
     @Override
     public Cart createCart(User user) {
         Cart cart = new Cart();
