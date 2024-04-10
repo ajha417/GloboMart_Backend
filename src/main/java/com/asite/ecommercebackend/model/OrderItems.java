@@ -28,6 +28,7 @@ public class OrderItems {
     private int quantity;
     private int price;
     private Long userId;
+    private int discountedPrice;
     private LocalDateTime deliveryDate;
 
 }

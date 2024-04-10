@@ -1,5 +1,6 @@
 package com.asite.ecommercebackend.service.impl;
 
+import com.asite.ecommercebackend.exception.CartItemException;
 import com.asite.ecommercebackend.exception.ProductException;
 import com.asite.ecommercebackend.model.Cart;
 import com.asite.ecommercebackend.model.CartItem;
@@ -16,6 +17,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Set;
 
 @Service
 @NoArgsConstructor
@@ -78,5 +82,22 @@ public class CartServiceImpl implements CartService {
         cart.setTotalItem(totalItem);
         cart.setDiscount(totalPrice - totalDiscountedPrice);
         return cartRepository.save(cart);
+    }
+    @Override
+    public void removeItemFromCart(Long userId, Long itemId) throws CartItemException {
+        // Retrieve the user's cart
+        Cart cart = cartRepository.findByUserId(userId);
+
+        if (cart != null) {
+            // Remove the item from the cart
+            Set<CartItem> items = cart.getCartItems();
+            items.removeIf(item -> item.getId().equals(itemId));
+
+            // Update the cart in the database
+            cartRepository.save(cart);
+        } else {
+            // Handle case where the user's cart doesn't exist
+            throw new CartItemException("Cart not found for user ID: " + userId);
+        }
     }
 }

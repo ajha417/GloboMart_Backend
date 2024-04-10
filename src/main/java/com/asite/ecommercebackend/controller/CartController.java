@@ -1,5 +1,6 @@
 package com.asite.ecommercebackend.controller;
 
+import com.asite.ecommercebackend.exception.CartItemException;
 import com.asite.ecommercebackend.exception.ProductException;
 import com.asite.ecommercebackend.exception.UserException;
 import com.asite.ecommercebackend.model.Cart;
