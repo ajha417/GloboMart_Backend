@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -90,13 +91,17 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Order findOrderById(Long orderId) throws OrderException {
-
-        return null;
+        Optional<Order> optionalOrder = orderRepository.findById(orderId);
+        if(optionalOrder.isPresent()) {
+            return optionalOrder.get();
+        }
+        throw new OrderException("order doesn't exist with id:"+orderId);
     }
 
     @Override
     public List<Order> usersOrderHistory(Long userId) {
-        return null;
+        List<Order> orders = orderRepository.getUserOrders(userId);
+        return orders;
     }
 
     @Override
@@ -123,21 +128,26 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Order cancelledOrder(Long orderId) throws OrderException {
-        return null;
+        Order order = findOrderById(orderId);
+        order.setOrderStatus("CANCELLED");
+        return orderRepository.save(order);
     }
 
     @Override
     public Order deliveredOrder(Long orderId) throws OrderException {
-        return null;
+        Order order = findOrderById(orderId);
+        order.setOrderStatus("DELIVERED");
+        return orderRepository.save(order);
     }
 
     @Override
     public List<Order> getAllOrders() {
-        return null;
+        return orderRepository.findAll();
     }
 
     @Override
     public void deleteOrder(Long orderId) throws OrderException {
-
+        Order order = findOrderById(orderId);
+        orderRepository.delete(order);
     }
 }
